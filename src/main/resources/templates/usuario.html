@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+  <head th:replace="template/template :: head"></head>
+
+  <body class="hold-transition sidebar-mini layout-fixed">
+    <div class="wrapper">
+
+      <!-- Preloader -->
+      <div th:replace="template/template :: preloader"></div>
+
+      <!-- Navbar -->
+      <nav th:replace="template/template :: navbar"></nav>
+
+      <!-- Main Sidebar Container -->
+      <aside th:replace="template/template :: sidebar"></aside>
+
+      <!-- Content Wrapper. Contains page content -->
+      <div class="content-wrapper">
+
+        <!-- Content Header (Page header) -->
+        <div th:replace="template/template :: content-header"></div>
+
+        <!-- Main content -->
+        <section class="content">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-12" >
+                <div class="card">
+                  <div class="card-header row">
+                    <div class="col-6">
+                      <h3 class="card-title">Usuarios</h3>
+                    </div>
+                    <div class="col-6 text-right">
+                      <a class="btn btn-primary" th:href="@{/usuarios/display(modal=${'true'})}">
+                        <i class="fas fa-user-plus"></i>
+                        Agregar Usuario
+                      </a>
+                    </div>
+                  </div>
+                  <div class="card-body">
+                    <table id="example1" class="table table-bordered table-striped">
+                      <thead>
+                      <tr>
+                        <th th:text="'#'"></th>
+                        <th th:text="Nombre"></th>
+                        <th th:text="Apellido"></th>
+                        <th th:text="Edad"></th>
+                        <th th:text="Usuario"></th>
+                        <th th:text="Roles"></th>
+                        <th th:text="Panel"></th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      <!--/*@thymesVar id="usuarios" type="com.iunis.adminiunis.domain.Usuario"*/-->
+                      <tr th:each="usuario: ${usuarios}">
+                        <td th:text="${usuario.id}"></td>
+                        <td th:text="${usuario.datospersonales.nombre}"></td>
+                        <td th:text="${usuario.datospersonales.apellidoPaterno+' '+usuario.datospersonales.apellidoMaterno}"></td>
+                        <td th:text="${usuario.datospersonales.edad}"></td>
+                        <td th:text="${usuario.userName}"></td>
+                        <td>
+                          <button class="btn btn-primary btn-sm mx-2" th:disabled="true" th:each="rol : ${usuario.roles}" th:text="${rol.nombre}"></button>
+                        </td>
+                        <td>
+                          <a th:href="@{/usuarios/loadUpdate(id=${usuario.id},modal=${'true'})}" ><i class="fas fa-edit"></i></a>
+                          <a th:href="@{/usuarios/modalPassword(id=${usuario.id},updPassModal=${'true'})}"><i class="fas fa-key text-success"></i></a>
+                          <a th:href="@{/usuarios/usuarioDelete(id=${usuario.id})}" onclick="return validateRemoved();"><i class="fas fa-trash text-danger"></i></a>
+                        </td>
+                      </tr>
+                      </tbody>
+                      <tfoot>
+                      <tr>
+                        <th th:text="'#'"></th>
+                        <th th:text="Nombre"></th>
+                        <th th:text="Apellido"></th>
+                        <th th:text="Edad"></th>
+                        <th th:text="Usuario"></th>
+                        <th th:text="Roles"></th>
+                        <th th:text="Panel"></th>
+                      </tr>
+                      </tfoot>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              <!---->
+              <div class="modal fade" id="formModal" tabindex="-1" aria-labelledby="formModalLabel" aria-hidden="true"  >
+                <div class="modal-dialog modal-lg">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="formModalLabel" th:if="${editMode != null}" th:text="'Editar los datos de '+${usuario.userName}"></h5>
+                      <h5 class="modal-title" id="fo" th:if="${editMode == null}" th:text="'Agregar nuevo usuario'"></h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <!--/*@thymesVar id="usuario" type="com.iunis.adminiunis.domain.Usuario"*/-->
+                      <!--/*@thymesVar id="editMode" type="java.lang.Boolean"*/-->
+                      <form th:action="${editMode} ? @{/usuarios/usuarioUpdate} : @{/usuarios/usuarioCreate}" method="post" th:object="${usuario}">
+
+                        <!--Es necesario para poder pasar la validacion del Model-->
+                        <input class="form-control" type=hidden th:field="*{id}"  th:if="${editMode}" required>
+
+                        <div class="form-row">
+                          <div class="col-4">
+                            <div class="form-group">
+                              <label for="nombre">Nombre</label>
+                              <input type="text" class="form-control" placeholder="Nombre" th:field="*{datospersonales.nombre}" required>
+                            </div>
+                          </div>
+                          <div class="col-4">
+                            <div class="form-group">
+                              <label for="apellidoPaterno">Apellido Paterno</label>
+                              <input type="text" class="form-control" placeholder="Apellido Paterno" th:field="*{datospersonales.apellidoPaterno}" required>
+                            </div>
+                          </div>
+                          <div class="col-4">
+                            <div class="form-group">
+                              <label for="apellidoMaterno">Apellido Materno</label>
+                              <input type="text" class="form-control" placeholder="Apellido Paterno" th:field="*{datospersonales.apellidoMaterno}" required>
+                            </div>
+                          </div>
+                          <div class="col-4">
+                            <div class="form-group">
+                              <label for="fechaNacimiento">Fecha de nacimiento</label>
+                              <input type="date" class="form-control" placeholder="email@email.com" th:field="*{datospersonales.fechaNacimiento}" required>
+                            </div>
+                          </div>
+                          <div class="col-4" th:if="${!(#httpServletRequest.remoteUser == usuario.userName)}">
+                            <div class="form-group">
+                              <label for="userName">Nombre de Usuario</label>
+                              <input type="email" class="form-control" placeholder="Nombre de Usuario" th:field="*{userName}" required>
+                              <span th:if="${errorMesaage != null}" th:text="${errorMesaage}" class="text-danger"></span>
+                            </div>
+                          </div>
+                          <div class="col-4" th:if="${editMode == null}">
+                            <label for="password">Contraseña</label>
+                            <div class="input-group">
+                              <input type="password" class="form-control border-right-0" placeholder="Contraseña" th:field="*{userPassword}" required id="userPassword" pattern=".{8,}">
+                              <div class="input-group-prepend">
+                                <div class="input-group-text border-left-0 bg-transparent">
+                                  <i class="far fa-eye" id="mostrar" style="cursor: pointer;"></i>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-6">
+                            <div class="form-group">
+                              <label>Roles</label>
+                              <select th:field="*{roles}" class="select2" multiple="multiple" data-placeholder="Seleccione uno o más roles" style="width: 100%;" autocomplete="off" required>
+                                <option th:each="rol : ${roles}" th:value="${rol.id}" th:text="${rol.nombre}"></option>
+                              </select>
+                            </div>
+                          </div>
+                          <div class="col-12 text-right">
+                            <button type="button" class="btn btn-secondary px-3" data-dismiss="modal">Cancelar</button>
+                            <input type="submit" class="btn btn-primary px-3" th:value="${editMode} ? 'Guardar' : 'Crear' " onclick="return validateSaved();">
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!---->
+              <div class="modal fade" id="updatePasswordModal" tabindex="-1" aria-labelledby="updatePasswordModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="updatePasswordModalLabel" th:text="'Editar la contraseña de '+${usuario.userName}"></h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <!--/*@thymesVar id="usuario" type="com.iunis.adminiunis.domain.Usuario"*/-->
+                      <!--/*@thymesVar id="editMode" type="java.lang.Boolean"*/-->
+                      <form th:action="@{/usuarios/passwordUpdate}" method="post" th:object="${usuario}">
+
+                        <!--Es necesario para poder pasar la validacion del Model-->
+                        <input class="form-control" type=hidden th:field="*{id}"  th:if="${editMode == null}" required>
+
+                        <div class="col-12 mb-5" th:if="${editMode == null}">
+                          <label for="password">Nueva Contraseña</label>
+                          <div class="input-group">
+                            <input type="password" class="form-control border-right-0" placeholder="Contraseña" id="userPassword" name="userPassword" pattern=".{8,}" required>
+                            <div class="input-group-prepend">
+                              <div class="input-group-text border-left-0 bg-transparent">
+                                <i class="far fa-eye" id="mostrar"></i>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <button type="button" class="btn btn-secondary px-3" data-dismiss="modal">Close</button>
+                        <!--<button type="submit" class="btn btn-primary">Guardar</button>-->
+                        <input type="submit" class="btn btn-primary px-3" th:value="'Guardar'" onclick="return validateSaved();">
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </div>
+
+      <!-- Footer -->
+      <footer th:replace="template/template :: footer"></footer>
+
+      <!-- Control Sidebar -->
+      <aside th:replace="template/template :: control-sidebar"></aside>
+
+    </div>
+
+    <div th:replace="template/template :: js"></div>
+  </body>
+
+</html>
