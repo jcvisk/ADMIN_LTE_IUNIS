@@ -32,7 +32,7 @@
                   <h3 class="card-title">Usuarios</h3>
                 </div>
                 <div class="col-6 text-right">
-                  <a class="btn btn-primary" th:href="@{/usuarios/display(modal=${'true'})}">
+                  <a class="btn btn-primary" th:href="@{/alumnos/form}">
                     <i class="fas fa-user-plus"></i>
                     Agregar Usuario
                   </a>
@@ -46,18 +46,19 @@
                     <th th:text="Nombre"></th>
                     <th th:text="Apellido"></th>
                     <th th:text="Edad"></th>
-                    <th th:text="Usuario"></th>
-                    <th th:text="Roles"></th>
+                    <th th:text="Carrera"></th>
+                    <th th:text="'Estado Civil'"></th>
                     <th th:text="Panel"></th>
                   </tr>
                   </thead>
                   <tbody>
-                  <!--/*@thymesVar id="alumnos" type="com.iunis.adminiunis.domain.Alumno"*/-->
                   <tr th:each="alumno: ${alumnos}">
                     <td th:text="${alumno.id}"></td>
-                    <td th:text="${alumno.datospersonales.nombre}"></td>
-                    <td th:text="${alumno.datospersonales.apellidoPaterno+' '+alumno.datospersonales.apellidoMaterno}"></td>
-                    <td th:text="${alumno.datospersonales.edad}"></td>
+                    <td th:text="${alumno.datosPersonales.nombre}"></td>
+                    <td th:text="${alumno.datosPersonales.apellidoPaterno+' '+alumno.datosPersonales.apellidoMaterno}"></td>
+                    <td th:text="${alumno.datosPersonales.edad}"></td>
+                    <td th:text="${alumno.carrera.descripcion}"></td>
+                    <td th:text="${alumno.datosPersonales.estadoCivil.descripcion}"></td>
                     <td>
                       <a th:href="@{/usuarios/loadUpdate(id=${alumno.id},modal=${'true'})}" ><i class="fas fa-edit"></i></a>
                       <a th:href="@{/usuarios/modalPassword(id=${alumno.id},updPassModal=${'true'})}"><i class="fas fa-key text-success"></i></a>
@@ -71,8 +72,8 @@
                     <th th:text="Nombre"></th>
                     <th th:text="Apellido"></th>
                     <th th:text="Edad"></th>
-                    <th th:text="Usuario"></th>
-                    <th th:text="Roles"></th>
+                    <th th:text="Carrera"></th>
+                    <th th:text="'Estado Civil'"></th>
                     <th th:text="Panel"></th>
                   </tr>
                   </tfoot>
@@ -94,7 +95,8 @@
 
 </div>
 
-<div th:replace="template/template :: js"></div>
+<div th:replace="template/template :: js-basic"></div>
+<div th:replace="template/template :: js-dataTables"></div>
 </body>
 
 </html>

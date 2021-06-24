@@ -264,10 +264,7 @@
                           <h3 class="timeline-header"><a href="#">Mina Lee</a> uploaded new photos</h3>
 
                           <div class="timeline-body">
-                            <img th:src="@{/https://placehold.it/150x100}" alt="...">
-                            <img th:src="@{/https://placehold.it/150x100}" alt="...">
-                            <img th:src="@{/https://placehold.it/150x100}" alt="...">
-                            <img th:src="@{/https://placehold.it/150x100}" alt="...">
+
                           </div>
                         </div>
                       </div>
@@ -376,7 +373,9 @@
 
 </div>
 
-<div th:replace="template/template :: js"></div>
+<div th:replace="template/template :: js-basic"></div>
+<div th:replace="template/template :: js-select2"></div>
+<div th:replace="template/template :: js-custom"></div>
 </body>
 
 </html>

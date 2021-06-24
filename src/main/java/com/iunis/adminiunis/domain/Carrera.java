@@ -7,8 +7,8 @@ import java.io.Serializable;
 
 @Data
 @Entity
-@Table(name = "datosacademicos")
-public class DatosAcademicos implements Serializable {
+@Table(name = "carreras")
+public class Carrera implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -16,8 +16,10 @@ public class DatosAcademicos implements Serializable {
     @Column(name = "id", unique = true, nullable = false)
     private Long id;
 
-    /*conbertir a objeto*/
-    @Column(name = "carrera")
-    private String carrera;
+    @Column(name = "descripcion")
+    private String descripcion;
+
+    @Column(name = "color")
+    private String color;
 
 }

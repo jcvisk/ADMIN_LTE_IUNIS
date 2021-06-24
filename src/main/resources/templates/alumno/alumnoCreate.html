@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="template/template :: head"></head>
+
+<body class="hold-transition sidebar-mini layout-fixed">
+<div class="wrapper">
+
+  <!-- Preloader -->
+  <div th:replace="template/template :: preloader"></div>
+
+  <!-- Navbar -->
+  <nav th:replace="template/template :: navbar"></nav>
+
+  <!-- Main Sidebar Container -->
+  <aside th:replace="template/template :: sidebar"></aside>
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+
+    <!-- Content Header (Page header) -->
+    <div th:replace="template/template :: content-header"></div>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-12">
+            <!--/*@thymesVar id="alumno" type="com.iunis.adminiunis.domain.Alumno"*/-->
+            <form th:action="@{/alumnos/create}" method="post" th:object="${alumno}">
+              <div class="form-row">
+                <div class="col-12"><h4>Datos Personales</h4></div>
+                <div class="col-2">
+                  <div class="form-group">
+                    <label for="nombre">Nombre</label>
+                    <input type="text" class="form-control" placeholder="Nombre" th:field="*{datosPersonales.nombre}" required>
+                  </div>
+                </div>
+                <div class="col-2">
+                  <div class="form-group">
+                    <label for="apellidoPaterno">Apellido Paterno</label>
+                    <input type="text" class="form-control" placeholder="Apellido Paterno" th:field="*{datosPersonales.apellidoPaterno}" required>
+                  </div>
+                </div>
+                <div class="col-2">
+                  <div class="form-group">
+                    <label for="apellidoMaterno">Apellido Materno</label>
+                    <input type="text" class="form-control" placeholder="Apellido Paterno" th:field="*{datosPersonales.apellidoMaterno}" required>
+                  </div>
+                </div>
+                <div class="col-2">
+                  <div class="form-group">
+                    <label for="fechaNacimiento">Fecha de nacimiento</label>
+                    <input type="date" class="form-control" placeholder="" th:field="*{datosPersonales.fechaNacimiento}" required>
+                  </div>
+                </div>
+                <div class="col-2">
+                  <div class="form-group">
+                    <label>Estado Civil</label>
+                    <!--/*@thymesVar id="estadosCiviles" type="com.iunis.adminiunis.domain.EstadoCivil"*/-->
+                    <select th:field="*{datosPersonales.estadoCivil}" class="custom-select">
+                      <option th:each="estado : ${estados}" th:value="${estado.id}" th:text="${estado.descripcion}"></option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-2">
+                  <div class="form-group">
+                    <label for="lugarNacimiento">Lugar de nacimiento</label>
+                    <input type="text" class="form-control" placeholder="" th:field="*{datosPersonales.lugarNacimiento}" required>
+                  </div>
+                </div>
+                <div class="col-2">
+                  <div class="form-group">
+                    <label for="nacionalidad">Nacionalidad</label>
+                    <input type="text" class="form-control" placeholder="" th:field="*{datosPersonales.nacionalidad}" required>
+                  </div>
+                </div>
+                <div class="col-2">
+                  <div class="form-group">
+                    <label for="sexo">Sexo</label>
+                    <input type="text" class="form-control" placeholder="" th:field="*{datosPersonales.sexo}" required>
+                  </div>
+                </div>
+                <div class="col-2">
+                  <div class="form-group">
+                    <label for="trabajo">Trabajo</label>
+                    <input type="text" class="form-control" placeholder="" th:field="*{datosPersonales.trabajo}" required>
+                  </div>
+                </div>
+                <div class="col-2">
+                  <div class="form-group">
+                    <label>Roles</label>
+                    <!--/*@thymesVar id="carreras" type="com.iunis.adminiunis.domain.Carrera"*/-->
+                    <select th:field="*{carrera}" class="custom-select">
+                      <option th:each="carrera : ${carreras}" th:value="${carrera.id}" th:text="${carrera.descripcion}"></option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="col-12 text-right">
+                  <button type="button" class="btn btn-secondary px-3" data-dismiss="modal">Cancelar</button>
+                  <input type="submit" class="btn btn-primary px-3" th:value="'Guardar'" onclick="return validateSaved();">
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- Footer -->
+  <footer th:replace="template/template :: footer"></footer>
+
+  <!-- Control Sidebar -->
+  <aside th:replace="template/template :: control-sidebar"></aside>
+
+</div>
+
+<div th:replace="template/template :: js-basic"></div>
+</body>
+
+</html>
+

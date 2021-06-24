@@ -23,8 +23,34 @@
 
     <!-- Main content -->
     <section class="content">
-      <div class="container-fluid text-center">
+      <div class="container-fluid">
         <h1>Dashboard</h1>
+        <div class="row">
+          <div class="col-6">
+            <!-- Donut chart -->
+            <div class="card card-primary card-outline">
+              <div class="card-header">
+                <h3 class="card-title">
+                  <i class="far fa-chart-bar"></i>
+                  Donut Chart
+                </h3>
+
+                <div class="card-tools">
+                  <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                    <i class="fas fa-minus"></i>
+                  </button>
+                  <button type="button" class="btn btn-tool" data-card-widget="remove">
+                    <i class="fas fa-times"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="card-body">
+                <div id="donut-chart" style="height: 300px;"></div>
+              </div>
+              <!-- /.card-body-->
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -38,7 +64,10 @@
 
 </div>
 
-<div th:replace="template/template :: js"></div>
+<div th:replace="template/template :: js-basic"></div>
+
+<div th:replace="template/template :: js-grafico"></div>
+<div th:replace="template/template :: js-custom"></div>
 </body>
 
 </html>

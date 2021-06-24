@@ -35,10 +35,6 @@ public class DatosPersonales implements Serializable {
     @Column(name = "edad")
     private String edad;
 
-    /*Convertir en objeto*/
-    @Column(name = "estadocivil")
-    private String estadoCivil;
-
     @Column(name = "lugarnacimiento")
     private String lugarNacimiento;
 
@@ -50,13 +46,6 @@ public class DatosPersonales implements Serializable {
 
     @Column(name = "trabajo")
     private String trabajo;
-
-    /*Convertir en objeto*/
-    @Column(name = "beca")
-    private String beca;
-
-
-
 
     /*DATOS DE PRUEBA*/
     @Column(name = "educacion")
@@ -70,5 +59,9 @@ public class DatosPersonales implements Serializable {
 
     @Column(name = "cargo")
     private String cargo;
+
+    @ManyToOne
+    @JoinColumn(name = "idestadocivil", referencedColumnName = "id")
+    private EstadoCivil estadoCivil;
 
 }

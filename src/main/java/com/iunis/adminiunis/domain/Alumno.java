@@ -16,7 +16,7 @@ public class Alumno implements Serializable {
     @Column(name = "id", unique = true, nullable = false)
     private Long id;
 
-    @JoinColumn(name = "iddatosacademicos", referencedColumnName = "id")
+    /*@JoinColumn(name = "iddatosacademicos", referencedColumnName = "id")
     @OneToOne(cascade= {CascadeType.ALL}, fetch=FetchType.LAZY)
     private DatosAcademicos datosAcademicos;
 
@@ -26,13 +26,13 @@ public class Alumno implements Serializable {
 
     @JoinColumn(name = "iddatosfinancieros", referencedColumnName = "id")
     @OneToOne(cascade= {CascadeType.ALL}, fetch=FetchType.LAZY)
-    private DatosFinancieros datosFinancieros;
+    private DatosFinancieros datosFinancieros;*/
 
     @JoinColumn(name = "iddatospersonales", referencedColumnName = "id")
     @OneToOne(cascade= {CascadeType.ALL}, fetch=FetchType.LAZY)
     private DatosPersonales datosPersonales;
 
-    @JoinColumn(name = "iddatosreligion", referencedColumnName = "id")
+    /*@JoinColumn(name = "iddatosreligion", referencedColumnName = "id")
     @OneToOne(cascade= {CascadeType.ALL}, fetch=FetchType.LAZY)
     private DatosReligion datosReligion;
 
@@ -42,7 +42,11 @@ public class Alumno implements Serializable {
 
     @JoinColumn(name = "iddatosubicacion", referencedColumnName = "id")
     @OneToOne(cascade= {CascadeType.ALL}, fetch=FetchType.LAZY)
-    private DatosUbicacion datosUbicacion;
+    private DatosUbicacion datosUbicacion;*/
+
+    @ManyToOne
+    @JoinColumn(name = "idcarrera", referencedColumnName = "id")
+    private Carrera carrera;
 
     @ManyToOne
     @JoinColumn(name = "idestatus", referencedColumnName = "id")
