@@ -45,7 +45,7 @@ if(getParameter("updPassModal") == "true"){
 /*-----------------------
 Mostrar y ocultal password
 ------------------------*/
-/*let boton = document.getElementById('mostrar');
+let boton = document.getElementById('mostrar');
 let input = document.getElementById('userPassword');
 boton.addEventListener('click', mostrarPass);
 function mostrarPass(){
@@ -57,4 +57,4 @@ function mostrarPass(){
     input.type = "password";
     $('#mostrar').removeClass("fa-eye-slash").addClass("fa-eye");
   }
-}*/
+}

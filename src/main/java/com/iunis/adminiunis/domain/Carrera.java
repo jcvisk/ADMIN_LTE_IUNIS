@@ -22,4 +22,8 @@ public class Carrera implements Serializable {
     @Column(name = "color")
     private String color;
 
+    //@Transient
+    @Column(name = "inscritos")
+    private Long inscritos;
+
 }
